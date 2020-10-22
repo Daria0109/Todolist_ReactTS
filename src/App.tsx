@@ -29,7 +29,7 @@ function App() {
         {id: todoListID2, title: 'What to bue', filter: 'all'}
     ]);
 
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<TasksStateType>({
         [todoListID1]:
             [
                 {id: v1(), title: 'HTML', isDone: true},
@@ -67,6 +67,17 @@ function App() {
         }
     }
 
+    function editTaskTitle (editedTitle: string, taskId: string, todolistId: string) {
+        let todoListTasks = tasks[todolistId];
+        let newTasks = todoListTasks.map(task => {
+            if (task.id === taskId) {
+                return {...task, title: task.title = editedTitle}
+            }
+            return task
+        })
+        setTasks({...tasks, newTasks})
+    }
+
 // let newTasks = tasks.map(task => {
     //     if (task.id == taskId) {
     //         return {...task, isDone: task.isDone = isDone}
@@ -86,6 +97,7 @@ function App() {
     function removeTodoList(todoListId: string) {
         const filteredTodoLists = todoLists.filter(tl => tl.id !== todoListId);
         delete tasks[todoListId];
+        setTodoLists(filteredTodoLists)
         setTasks({...tasks})
     }
 
@@ -97,6 +109,17 @@ function App() {
             ...tasks,
             [todoListId]: []
         })
+    }
+
+    function editTodoListTitle (editedTitle: string, todoListId: string) {
+        let newTodoLists = todoLists.map(tl => {
+            if (tl.id === todoListId) {
+                return {...tl, title: tl.title = editedTitle}
+            }
+            return tl
+        })
+        setTodoLists([...newTodoLists]);
+        setTasks({...tasks})
     }
 
     return (
@@ -121,7 +144,9 @@ function App() {
                                  changeFilter={changeFilter}
                                  changeTaskStatus={changeTaskStatus}
                                  filter={tl.filter}
-                                 removeTodoList={removeTodoList}/>
+                                 removeTodoList={removeTodoList}
+                                 editTaskTitle={editTaskTitle}
+                                 editTodoListTitle={editTodoListTitle}/>
             })}
         </div>
     );
