@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterType, TaskType} from './App';
+import AddItemForm from './AddItemForm';
 
 type TodoListPropsType = {
     id: string
@@ -14,31 +15,14 @@ type TodoListPropsType = {
 }
 
 export function TodoList(props: TodoListPropsType) {
-    let [newTaskText, setNewTaskText] = useState('');
-    let [error, setError] = useState<string | null>(null)
 
-    const onAddTaskHandler = () => {
-        if (newTaskText.trim()) {
-            props.addTask(newTaskText, props.id);
-            setNewTaskText('');
-        } else {
-            setError('Text is required')
-        }
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError('')
-        setNewTaskText(e.currentTarget.value)
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError('');
-        if (e.key === 'Enter') {
-            onAddTaskHandler()
-        }
-    }
     const onAllClickHandler = () => props.changeFilter('all', props.id)
     const onActiveClickHandler = () => props.changeFilter('active', props.id)
     const onCompletedClickHandler = () => props.changeFilter('completed', props.id)
+
+    const onAddTask = (title: string) => {
+        props.addTask(title, props.id)
+    }
 
     return (
         <div>
@@ -46,14 +30,7 @@ export function TodoList(props: TodoListPropsType) {
                 {props.title}
                 <button onClick={() => props.removeTodoList(props.id)}>x</button>
             </h3>
-            <div>
-                <input value={newTaskText}
-                       onChange={onChangeHandler}
-                       onKeyPress={onKeyPressHandler}
-                       className={error ? 'error' : ''}/>
-                <button onClick={onAddTaskHandler}>+</button>
-                {error && <div className="error-message">{error}</div>}
-            </div>
+            <AddItemForm addItem={onAddTask}/>
             <ul>
                 {
                     props.tasks.map(task => {
