@@ -60,7 +60,7 @@ function App() {
 
   function changeTaskStatus(taskId: string, isDone: boolean, todoListId: string) {
     const todoListTasks = tasks[todoListId];
-    const task = todoListTasks.find(t => t.id = taskId);
+    const task = todoListTasks.find(t => t.id === taskId);
     if (task) {
       task.isDone = isDone;
       setTasks({...tasks})
