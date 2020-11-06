@@ -1,6 +1,6 @@
 import {
-  addTodoListAC,
-  changeTodoListFilterAT,
+  addTodoListAC, changeTodolistFilterAC,
+  changeTodoListFilterAT, changeTodolistTitleAC,
   changeTodoListTitleAT,
   removeTodoListAC,
   todoListReducer
@@ -56,7 +56,7 @@ test('correct todolist should change its name', () => {
     title: newTodolistTitle
   };
 
-  const endState = todoListReducer(startState, action);
+  const endState = todoListReducer(startState, changeTodolistTitleAC(action.id, action.title));
 
   expect(endState[0].title).toBe("What to learn");
   expect(endState[1].title).toBe(newTodolistTitle);
@@ -79,7 +79,7 @@ test('correct filter of todolist should be changed', () => {
     filter: newFilter
   };
 
-  const endState = todoListReducer(startState, action);
+  const endState = todoListReducer(startState, changeTodolistFilterAC(action.id, action.filter));
 
   expect(endState[0].filter).toBe("all");
   expect(endState[1].filter).toBe(newFilter);
