@@ -9,9 +9,11 @@ import {
 } from './todolists-reducer';
 
 let initialState: Array<TodoListType>;
-let todoListID1 = v1();
-let todoListID2 = v1();
+let todoListID1: string;
+let todoListID2: string;
 beforeEach(() => {
+  todoListID1 = v1();
+  todoListID2 = v1();
   initialState = [
     {id: todoListID1, title: 'What to learn', filter: 'all'},
     {id: todoListID2, title: 'What to bue', filter: 'all'}
