@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
-import {FilterType, TaskType} from './App';
-import AddItemForm from './AddItemForm';
-import EditableSpan from './EditableSpan';
+import {FilterType, TaskType} from '../../App';
+import AddItemForm from '../AddItemForm/AddItemForm';
+import EditableSpan from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import {Task} from './state/Task';
+import {Task} from '../Task/Task';
 
 type TodoListPropsType = {
   id: string
