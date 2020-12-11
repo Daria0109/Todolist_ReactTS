@@ -5,14 +5,8 @@ import {v1} from 'uuid';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {
-  addTodolistAC,
-  changeTodolistFilterAC,
-  changeTodolistTitleAC,
-  removeTodolistAC,
-  todolistsReducer
-} from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
+import {todolistsActions, todolistsReducer} from './redux/todolists-reducer';
+import {taskActions, tasksReducer} from './redux/tasks-reducer';
 
 export type TaskType = {
   id: string
@@ -55,19 +49,19 @@ function AppWithReducer() {
 
 
   function addTask(taskTitle: string, todoListId: string) {
-    dispatchToTasksReducer(addTaskAC(taskTitle, todoListId))
+    dispatchToTasksReducer(taskActions.addTaskAC(taskTitle, todoListId))
   }
 
   function removeTask(taskId: string, todoListId: string) {
-    dispatchToTasksReducer(removeTaskAC(taskId, todoListId))
+    dispatchToTasksReducer(taskActions.removeTaskAC(taskId, todoListId))
   }
 
   function changeTaskStatus(taskId: string, isDone: boolean, todoListId: string) {
-    dispatchToTasksReducer(changeTaskStatusAC(taskId, isDone, todoListId))
+    dispatchToTasksReducer(taskActions.changeTaskStatusAC(taskId, isDone, todoListId))
   }
 
   function editTaskTitle(editedTitle: string, taskId: string, todolistId: string) {
-    dispatchToTasksReducer(changeTaskTitleAC(editedTitle, taskId, todolistId))
+    dispatchToTasksReducer(taskActions.changeTaskTitleAC(editedTitle, taskId, todolistId))
   }
 
 // let newTasks = tasks.map(task => {
@@ -79,22 +73,22 @@ function AppWithReducer() {
 
 
   function changeFilter(value: FilterType, todoListId: string) {
-    dispatchToTodolistsReducer(changeTodolistFilterAC(value, todoListId))
+    dispatchToTodolistsReducer(todolistsActions.changeTodolistFilterAC(value, todoListId))
   }
 
   function removeTodoList(todoListId: string) {
-    dispatchToTodolistsReducer(removeTodolistAC(todoListId));
-    dispatchToTasksReducer(removeTodolistAC(todoListId))
+    dispatchToTodolistsReducer(todolistsActions.removeTodolistAC(todoListId));
+    dispatchToTasksReducer(todolistsActions.removeTodolistAC(todoListId))
   }
 
   function addTodoList(title: string) {
-    let action = addTodolistAC(title);
+    let action = todolistsActions.addTodolistAC(title);
     dispatchToTodolistsReducer(action);
     dispatchToTasksReducer(action)
   }
 
   function editTodoListTitle(editedTitle: string, todoListId: string) {
-    let action = changeTodolistTitleAC(editedTitle, todoListId);
+    let action = todolistsActions.changeTodolistTitleAC(editedTitle, todoListId);
     dispatchToTodolistsReducer(action);
   }
   return (
