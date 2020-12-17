@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
-import {FilterType, TaskType} from '../../App';
 import AddItemForm from '../AddItemForm/AddItemForm';
 import EditableSpan from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
 import {Task} from '../Task/Task';
+import {TaskStatuses, TaskType} from '../../api/tasks-api';
+import {FilterType} from '../../redux/todolists-reducer';
 
 type TodoListPropsType = {
   id: string
@@ -13,7 +14,7 @@ type TodoListPropsType = {
   removeTask: (id: string, todoListId: string) => void
   changeFilter: (value: FilterType, todoListId: string) => void
   addTask: (taskTitle: string, todoListId: string) => void
-  changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
+  changeTaskStatus: (taskId: string, status: TaskStatuses, todoListId: string) => void
   filter: FilterType
   removeTodoList: (todoListId: string) => void
   editTaskTitle: (editedTitle: string, taskId: string, todolistId: string) => void
@@ -41,10 +42,10 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
 
   let tasksForTodoList = props.tasks;
   if (props.filter === 'active') {
-    tasksForTodoList = props.tasks.filter(task => task.isDone === false)
+    tasksForTodoList = props.tasks.filter(task => task.status === TaskStatuses.New)
   }
   if (props.filter === 'completed') {
-    tasksForTodoList = props.tasks.filter(task => task.isDone === true)
+    tasksForTodoList = props.tasks.filter(task => task.status === TaskStatuses.Completed)
   }
 
   return (
@@ -59,7 +60,7 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
       <ul style={{padding: '0px'}}>
         {
           tasksForTodoList.map(t => <Task key={t.id}
-                                     isDone={t.isDone}
+                                     status={t.status}
                                      title={t.title}
                                      taskId={t.id}
                                      todolistId={props.id}

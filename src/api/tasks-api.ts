@@ -6,17 +6,33 @@ const instance = axios.create({
   headers: {'API-KEY': 'bcb04db8-51e3-4a52-abad-1b8669db5951'}
 })
 
-type TaskType = {
-  description: string
-  title: string
-  completed: boolean
-  status: number
-  priority: string
-  deadline: string
-  id: string
-  todoListId: string
-  order: number
+
+export enum TaskStatuses {
+  New = 0,
+  InProgress = 1,
+  Completed = 2,
+  Draft = 3
+}
+
+export enum TaskPriorities {
+  Low = 0,
+  Middle = 1,
+  High = 2,
+  Urgently = 3,
+  Late = 4
+}
+
+export type TaskType = {
   addedDate: string
+  deadline: string
+  description: string
+  id: string
+  order: number
+  priority: TaskPriorities
+  startDate: string
+  status: TaskStatuses
+  title: string
+  todoListId: string
 }
 
 type GetResponseTaskType = {
@@ -53,12 +69,15 @@ export const tasksAPI = {
     return instance.get<GetResponseTaskType>(`${todolistId}/tasks?count=10&page=1`)
   },
   createTask(todolistId: string, title: string) {
-    return instance.post<CommonResponseTaskType<{item: Array<TaskType>}>>(`${todolistId}/tasks`, {title})
+    return instance.post<CommonResponseTaskType<{ item: Array<TaskType> }>>(`${todolistId}/tasks`, {title})
   },
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<CommonResponseTaskType>(`${todolistId}/tasks/${taskId}`)
   },
   updateTask(todolistId: string, taskId: string, title: string) {
-    return instance.put<CommonResponseTaskType<{item: Array<TaskType>}>>(`${todolistId}/tasks/${taskId}`, {...PutRequestBody, title: title})
+    return instance.put<CommonResponseTaskType<{ item: Array<TaskType> }>>(`${todolistId}/tasks/${taskId}`, {
+      ...PutRequestBody,
+      title: title
+    })
   }
 }

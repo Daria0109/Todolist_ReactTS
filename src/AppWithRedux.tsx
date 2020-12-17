@@ -4,22 +4,13 @@ import {TodoList} from './components/Todolist/TodoList';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {todolistsActions} from './redux/todolists-reducer';
+import {FilterType, TodolistDomainType, todolistsActions} from './redux/todolists-reducer';
 import {taskActions} from './redux/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './redux/store';
+import {TaskStatuses, TaskType} from './api/tasks-api';
 
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
-};
-export type FilterType = 'all' | 'active' | 'completed';
-export type TodoListType = {
-  id: string
-  title: string
-  filter: FilterType
-}
+
 export type TasksStateType = {
   [key: string]: Array<TaskType>
 }
@@ -29,7 +20,7 @@ function AppWithRedux() {
 
   const dispatch = useDispatch();
   let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
-  let todolists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists);
+  let todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
 
   const addTask = useCallback((taskTitle: string, todoListId: string) => {
     dispatch(taskActions.addTaskAC(taskTitle, todoListId))
@@ -39,8 +30,8 @@ function AppWithRedux() {
     dispatch(taskActions.removeTaskAC(taskId, todoListId))
   }, [dispatch])
 
-  const changeTaskStatus = useCallback((taskId: string, isDone: boolean, todoListId: string) => {
-    dispatch(taskActions.changeTaskStatusAC(taskId, isDone, todoListId))
+  const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todoListId: string) => {
+    dispatch(taskActions.changeTaskStatusAC(taskId, status, todoListId))
   }, [dispatch])
 
   const editTaskTitle = useCallback((editedTitle: string, taskId: string, todolistId: string) => {

@@ -19,6 +19,7 @@ export const Get: Story = (args) => {
     tasksAPI.getTasks(id)
       .then((res) => {
         setState(res.data.items)
+        console.log(res.data.items)
       })
   }
   return <div>
