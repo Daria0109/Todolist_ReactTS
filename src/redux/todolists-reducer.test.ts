@@ -7,6 +7,7 @@ let todoListID2: string;
 beforeEach(() => {
   todoListID1 = v1();
   todoListID2 = v1();
+
   initialState = [
     {id: todoListID1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
     {id: todoListID2, title: 'What to bue', filter: 'all', order: 0, addedDate: ''}
@@ -23,13 +24,16 @@ test('correct todolist should be deleted', () => {
 })
 
 test('correct todolist should be added', () => {
-  let action = todolistsActions.addTodolistAC('How to live');
+  const todoListID3 = v1();
+  let action = todolistsActions.addTodolistAC({
+    id: todoListID3, title: 'How to live', order: 0, addedDate: ''
+  });
   let endState = todolistsReducer(initialState, action);
 
   expect(endState).toEqual([
+    {id: todoListID3, title: 'How to live', filter: 'all', order: 0, addedDate: ''},
     {id: todoListID1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
     {id: todoListID2, title: 'What to bue', filter: 'all', order: 0, addedDate: ''},
-    {id: action.todolistId, title: 'How to live', filter: 'all', order: 0, addedDate: ''},
   ])
 })
 
