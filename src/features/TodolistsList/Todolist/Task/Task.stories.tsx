@@ -2,7 +2,7 @@ import {Meta, Story} from '@storybook/react/types-6-0';
 import {action} from '@storybook/addon-actions';
 import {Task, TaskPropsType} from './Task';
 import React from 'react';
-import {TaskStatuses} from '../../api/tasks-api';
+import {TaskStatuses} from '../../../../api/tasks-api';
 
 
 export default {

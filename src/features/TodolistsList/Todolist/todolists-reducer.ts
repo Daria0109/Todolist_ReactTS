@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {todolistsAPI, TodolistsType} from '../api/todolists-api';
+import {todolistsAPI, TodolistsType} from '../../../api/todolists-api';
 import {Dispatch} from 'redux';
 import {taskActions} from './tasks-reducer';
 
@@ -59,38 +59,32 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
 
 // T h u n k
 export const fetchTodolistsTC = () => {
-  return (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.getTodolists()
-      .then(data => dispatch(todolistsActions.setTodolistsAC(data)))
+  return async (dispatch: Dispatch<ActionsType>) => {
+    const data = await todolistsAPI.getTodolists()
+    dispatch(todolistsActions.setTodolistsAC(data))
   }
 }
 export const deleteTodolistTC = (todolistId: string) => {
-  return (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.deleteTodolist(todolistId)
-      .then(data => {
-        if (data.resultCode === 0) {
-          dispatch(todolistsActions.removeTodolistAC(todolistId))
-        }
-      })
+  return async (dispatch: Dispatch<ActionsType>) => {
+    const data = await todolistsAPI.deleteTodolist(todolistId)
+    if (data.resultCode === 0) {
+      dispatch(todolistsActions.removeTodolistAC(todolistId))
+    }
   }
 }
 export const createTodolistTC = (title: string) => {
-  return (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.createTodolist(title)
-      .then(data => {
-        if (data.resultCode === 0) {
-          dispatch(todolistsActions.addTodolistAC(data.data.item))
-        }
-      })
+  return async (dispatch: Dispatch<ActionsType>) => {
+    const data = await todolistsAPI.createTodolist(title)
+    if (data.resultCode === 0) {
+      dispatch(todolistsActions.addTodolistAC(data.data.item))
+    }
   }
 }
 export const updateTodolistTC = (editedTitle: string, todoListId: string) => {
-  return (dispatch: Dispatch<ActionsType>) => {
-    todolistsAPI.updateTodolist(todoListId, editedTitle)
-      .then(data => {
-        if (data.resultCode === 0) {
-          dispatch(todolistsActions.changeTodolistTitleAC(editedTitle, todoListId))
-        }
-      })
+  return async (dispatch: Dispatch<ActionsType>) => {
+    const data = await todolistsAPI.updateTodolist(todoListId, editedTitle)
+    if (data.resultCode === 0) {
+      dispatch(todolistsActions.changeTodolistTitleAC(editedTitle, todoListId))
+    }
   }
 }
