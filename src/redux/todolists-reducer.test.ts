@@ -52,3 +52,16 @@ test('todolist title should be changed', () => {
     {id: todoListID2, title: 'What to eat', filter: 'all', order: 0, addedDate: ''}
   ])
 })
+
+test('todolists should be set correctly', () => {
+  const todolists = [
+    {id: todoListID1, title: 'What to learn', order: 0, addedDate: ''},
+    {id: todoListID2, title: 'What to bue', order: 0, addedDate: ''}
+  ]
+  const action = todolistsActions.setTodolistsAC(todolists)
+  const endState = todolistsReducer([], action)
+
+  expect(endState.length).toBe(2)
+  expect(endState[0].filter).toBeDefined()
+  expect(endState[1].filter).toBeDefined()
+})

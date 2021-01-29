@@ -13,7 +13,7 @@ export const Get: Story = (args) => {
   const getTodos = () => {
     todolistsAPI.getTodolists()
       .then((res) => {
-        setState(res.data)
+        setState(res)
       })
   }
   return <div>
@@ -41,7 +41,7 @@ export const Create: Story = (args) => {
 
 export const Delete: Story = (args) => {
   const [state, setState] = useState<any>(null);
-  const [todolistID, setTodolistID] = useState('');
+  const [TodolistID, setTodolistID] = useState('');
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTodolistID(e.currentTarget.value)
   }
@@ -50,8 +50,8 @@ export const Delete: Story = (args) => {
       .then((res) => setState(res.data))
   }
   return <div>
-    <input type="text" value={todolistID} onChange={onChangeHandler} placeholder='todolistId'/>
-    <button onClick={() => deleteTodo(todolistID)}>Delete</button>
+    <input type="text" value={TodolistID} onChange={onChangeHandler} placeholder='TodolistId'/>
+    <button onClick={() => deleteTodo(TodolistID)}>Delete</button>
     <div>{JSON.stringify(state)}</div>
   </div>
 }

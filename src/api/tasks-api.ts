@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {APIResponseType} from './todolists-api';
 
 const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists',
@@ -40,44 +41,30 @@ type GetResponseTaskType = {
   totalCount: number
   error: string
 }
-type CommonResponseTaskType<T = {}> = {
-  data: T
-  resultCode: number
-  messages: Array<string>
-  fieldsErrors: Array<string>
-}
-type PutRequestBodyType = {
+export type UpdateTaskModelType = {
   title: string
   description: string
-  completed: boolean
   status: number
   priority: number
   startDate: string
-  deadline: null
+  deadline: string
 }
-const PutRequestBody: PutRequestBodyType = {
-  title: '',
-  description: 'super task',
-  completed: false,
-  status: 1,
-  priority: 1,
-  startDate: '11.12.2020',
-  deadline: null
-}
+
 export const tasksAPI = {
   getTasks(todolistId: string) {
     return instance.get<GetResponseTaskType>(`${todolistId}/tasks?count=10&page=1`)
+      .then(res => res.data)
   },
   createTask(todolistId: string, title: string) {
-    return instance.post<CommonResponseTaskType<{ item: Array<TaskType> }>>(`${todolistId}/tasks`, {title})
+    return instance.post<APIResponseType<{ item: TaskType }>>(`${todolistId}/tasks`, {title})
+      .then(res => res.data)
   },
   deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<CommonResponseTaskType>(`${todolistId}/tasks/${taskId}`)
+    return instance.delete<APIResponseType>(`${todolistId}/tasks/${taskId}`)
+      .then(res => res.data)
   },
-  updateTask(todolistId: string, taskId: string, title: string) {
-    return instance.put<CommonResponseTaskType<{ item: Array<TaskType> }>>(`${todolistId}/tasks/${taskId}`, {
-      ...PutRequestBody,
-      title: title
-    })
+  updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+    return instance.put<APIResponseType<{ item: TaskType}>>(`${todolistId}/tasks/${taskId}`, model)
+      .then(res => res.data)
   }
 }

@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import AddItemForm from '../AddItemForm/AddItemForm';
 import EditableSpan from '../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
@@ -6,6 +6,8 @@ import {Delete} from '@material-ui/icons';
 import {Task} from '../Task/Task';
 import {TaskStatuses, TaskType} from '../../api/tasks-api';
 import {FilterType} from '../../redux/todolists-reducer';
+import {useDispatch} from 'react-redux';
+import {fetchTasksTC} from '../../redux/tasks-reducer';
 
 type TodoListPropsType = {
   id: string
@@ -14,15 +16,20 @@ type TodoListPropsType = {
   removeTask: (id: string, todoListId: string) => void
   changeFilter: (value: FilterType, todoListId: string) => void
   addTask: (taskTitle: string, todoListId: string) => void
-  changeTaskStatus: (taskId: string, status: TaskStatuses, todoListId: string) => void
+  changeTaskStatus: (status: TaskStatuses, taskId: string, todoListId: string) => void
   filter: FilterType
   removeTodoList: (todoListId: string) => void
   editTaskTitle: (editedTitle: string, taskId: string, todolistId: string) => void
   editTodoListTitle: (editedTitle: string, todoListId: string) => void
 }
 
-export const TodoList = React.memo((props: TodoListPropsType) => {
+export const Todolist = React.memo((props: TodoListPropsType) => {
   console.log('TODOLIST')
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTasksTC(props.id))
+  }, [])
 
   const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.changeFilter, props.id])
   const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.changeFilter, props.id])
@@ -60,13 +67,13 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
       <ul style={{padding: '0px'}}>
         {
           tasksForTodoList.map(t => <Task key={t.id}
-                                     status={t.status}
-                                     title={t.title}
-                                     taskId={t.id}
-                                     todolistId={props.id}
-                                     changeTaskStatus={props.changeTaskStatus}
-                                     removeTask={props.removeTask}
-                                     editTaskTitle={props.editTaskTitle}/>)}
+                                          status={t.status}
+                                          title={t.title}
+                                          taskId={t.id}
+                                          todolistId={props.id}
+                                          changeTaskStatus={props.changeTaskStatus}
+                                          removeTask={props.removeTask}
+                                          editTaskTitle={props.editTaskTitle}/>)}
       </ul>
       <div>
         <Button variant={props.filter == 'all' ? 'contained' : 'text'}

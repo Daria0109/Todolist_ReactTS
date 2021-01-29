@@ -18,8 +18,8 @@ export const Get: Story = (args) => {
   const getTasks = (id: string) => {
     tasksAPI.getTasks(id)
       .then((res) => {
-        setState(res.data.items)
-        console.log(res.data.items)
+        setState(res.items)
+        console.log(res.items)
       })
   }
   return <div>
@@ -45,7 +45,7 @@ export const Create: Story = (args) => {
     tasksAPI.createTask(id, title)
       .then((res) => {
           console.log(res)
-        setState(res.data.data)
+        setState(res.data)
         })
   }
   return <div>
@@ -97,10 +97,17 @@ export const Update: Story = (args) => {
     setTaskTitle(e.currentTarget.value)
   }
   const updateTask = (todoID: string, taskID: string, newTaskTitle: string) => {
-    tasksAPI.updateTask(todoID, taskID, newTaskTitle)
+    tasksAPI.updateTask(todoID, taskID, {
+      title: taskTitle,
+      status: 0,
+      startDate: '',
+      priority: 1,
+      description: '',
+      deadline: '',
+    })
       .then((res) => {
         console.log(res.data)
-        setState(res.data.data.item)
+        setState(res.data.item)
       })
   }
   return <div>

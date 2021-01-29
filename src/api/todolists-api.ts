@@ -12,7 +12,7 @@ export type TodolistsType = {
   order: number
   title: string
 }
-type CommonResponseTodosType<T = {}> = {
+export type APIResponseType<T = {}> = {
   data: T
   resultCode: number
   messages: Array<string>
@@ -23,15 +23,19 @@ type CommonResponseTodosType<T = {}> = {
 export const todolistsAPI = {
   getTodolists() {
     return instance.get<Array<TodolistsType>>('todo-lists')
+      .then(res => res.data)
   },
   createTodolist(title: string) {
-    return instance.post<CommonResponseTodosType<{item: TodolistsType}>>('todo-lists', {title})
+    return instance.post<APIResponseType<{item: TodolistsType}>>('todo-lists', {title})
+      .then(res => res.data)
   },
   deleteTodolist(todolistID: string) {
-    return instance.delete<CommonResponseTodosType>(`todo-lists/${todolistID}`)
+    return instance.delete<APIResponseType>(`todo-lists/${todolistID}`)
+      .then(res => res.data)
   },
   updateTodolist(todolistID: string, title: string) {
-    return instance.put<CommonResponseTodosType>(`todo-lists/${todolistID}`, {title})
+    return instance.put<APIResponseType>(`todo-lists/${todolistID}`, {title})
+      .then(res => res.data)
   }
 }
 
