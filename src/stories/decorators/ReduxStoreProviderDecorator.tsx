@@ -6,11 +6,13 @@ import {tasksReducer} from '../../features/TodolistsList/Todolist/tasks-reducer'
 import {todolistsReducer} from '../../features/TodolistsList/Todolist/todolists-reducer';
 import {v1} from 'uuid';
 import {TaskPriorities, TaskStatuses} from '../../api/tasks-api';
+import appReducer from '../../app/app-reducer';
 
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
-  todolists: todolistsReducer
+  todolists: todolistsReducer,
+  app: appReducer
 })
 
 const initialGlobalState = {
@@ -55,6 +57,10 @@ const initialGlobalState = {
           status: TaskStatuses.New, todoListId: 'todolistId2'
         }
       ],
+  },
+  app: {
+    status: 'idle',
+    error: null
   }
 };
 

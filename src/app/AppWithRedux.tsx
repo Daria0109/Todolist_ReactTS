@@ -1,12 +1,16 @@
 import React from 'react';
 import './App.css';
-import {AppBar, Button, Container, IconButton, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
 import TodolistsList from '../features/TodolistsList/TodolistsList';
+import ErrorSnackbar from '../components/ErrorSnackbar/ErrorSnackbar';
+import {useSelector} from 'react-redux';
+import {AppStatusType} from './app-reducer';
+import {AppRootStateType} from './store';
 
 
 const AppWithRedux = () => {
-  console.log('APP')
+const status = useSelector<AppRootStateType, AppStatusType>(state => state.app.status)
 
   return (
     <div className="App">
@@ -20,9 +24,11 @@ const AppWithRedux = () => {
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
+        {status === 'loading' &&  <LinearProgress color="secondary" />}
       </AppBar>
       <Container fixed>
         <TodolistsList/>
+        <ErrorSnackbar/>
       </Container>
     </div>
   );
