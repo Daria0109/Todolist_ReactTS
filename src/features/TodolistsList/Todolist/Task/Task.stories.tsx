@@ -24,18 +24,10 @@ const baseArgs = {
 
 export const TaskIsNotDoneExample = Template.bind({});
 TaskIsNotDoneExample.args = {
-  ...baseArgs,
-  taskId: '1',
-  title: 'React',
-  status: TaskStatuses.New,
-  todolistId: 'todolistId1'
+  ...baseArgs
 };
 
 export const TaskIsDoneExample = Template.bind({});
 TaskIsDoneExample.args = {
-  ...baseArgs,
-  taskId: '2',
-  title: 'Redux',
-  status: TaskStatuses.Completed,
-  todolistId: 'todolistId2'
+  ...baseArgs
 };

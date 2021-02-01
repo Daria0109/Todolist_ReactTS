@@ -5,15 +5,14 @@ import {Menu} from '@material-ui/icons';
 import TodolistsList from '../features/TodolistsList/TodolistsList';
 import ErrorSnackbar from '../components/ErrorSnackbar/ErrorSnackbar';
 import {useSelector} from 'react-redux';
-import {AppStatusType} from './app-reducer';
+import {RequestStatusType} from './app-reducer';
 import {AppRootStateType} from './store';
 
 
 const AppWithRedux = () => {
-const status = useSelector<AppRootStateType, AppStatusType>(state => state.app.status)
+  const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
-  return (
-    <div className="App">
+  return <div className="App">
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
@@ -31,7 +30,6 @@ const status = useSelector<AppRootStateType, AppStatusType>(state => state.app.s
         <ErrorSnackbar/>
       </Container>
     </div>
-  );
 }
 
 export default AppWithRedux;

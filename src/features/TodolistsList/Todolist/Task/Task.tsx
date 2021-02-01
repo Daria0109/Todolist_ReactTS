@@ -3,11 +3,10 @@ import {Checkbox, IconButton} from '@material-ui/core';
 import EditableSpan from '../../../../components/EditableSpan/EditableSpan';
 import {Delete} from '@material-ui/icons';
 import {TaskStatuses} from '../../../../api/tasks-api';
+import {TaskDomainType} from '../tasks-reducer';
 
 export type TaskPropsType = {
-  status: TaskStatuses
-  title: string
-  taskId: string
+  task: TaskDomainType
   todolistId: string
   removeTask: (id: string, todoListId: string) => void
   changeTaskStatus: (status: TaskStatuses, taskId: string, todoListId: string) => void
@@ -15,21 +14,25 @@ export type TaskPropsType = {
 }
 
 export const Task = React.memo((props: TaskPropsType) => {
-  const onClickHandler = () => props.removeTask(props.taskId, props.todolistId);
+  const onClickHandler = () => props.removeTask(props.task.id, props.todolistId);
 
   const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newCheckedValue = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-    props.changeTaskStatus(newCheckedValue, props.taskId, props.todolistId)
+    props.changeTaskStatus(newCheckedValue, props.task.id, props.todolistId)
   };
 
   const editTaskTitle = useCallback((editedTitle: string) =>
-      props.editTaskTitle(editedTitle, props.taskId, props.todolistId),
-    [props.taskId, props.todolistId])
+      props.editTaskTitle(editedTitle, props.task.id, props.todolistId),
+    [props.task.id, props.todolistId])
 
-  return <div className={props.status ? 'is-done' : ''}>
-    <Checkbox checked={props.status === TaskStatuses.Completed} onChange={changeStatus}/>
-    <EditableSpan title={props.title} editTitle={editTaskTitle}/>
-    <IconButton onClick={onClickHandler}>
+  return <div className={props.task.status ? 'is-done' : ''}>
+    <Checkbox checked={props.task.status === TaskStatuses.Completed}
+              disabled={props.task.entityStatus === 'loading'}
+              onChange={changeStatus}/>
+    <EditableSpan title={props.task.title}
+                  editTitle={editTaskTitle}
+                  notEdited={props.task.entityStatus === 'loading'}/>
+    <IconButton onClick={onClickHandler} disabled={props.task.entityStatus === 'loading'}>
       <Delete/>
     </IconButton>
   </div>

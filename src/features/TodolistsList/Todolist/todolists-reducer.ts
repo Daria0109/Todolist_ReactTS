@@ -1,6 +1,7 @@
 import {todolistsAPI, TodolistsType} from '../../../api/todolists-api';
 import {Dispatch} from 'redux';
-import {appActions, AppActionsType} from '../../../app/app-reducer';
+import {appActions, AppActionsType, RequestStatusType} from '../../../app/app-reducer';
+import {handleServerAppError, handleServerNetworkError} from '../../../helpers/error-helpers';
 
 // A c t i o n s
 export const todolistsActions = {
@@ -18,6 +19,9 @@ export const todolistsActions = {
   } as const),
   setTodolistsAC: (todolists: Array<TodolistsType>) => ({
     type: 'todolist/todolists/SET-TODOLISTS', todolists
+  } as const),
+  changeEntityStatusAC: (todolistId: string, entityStatus: RequestStatusType) => ({
+    type: 'todolist/todolists/CHANGE-ENTITY-STATUS', todolistId, entityStatus
   } as const)
 }
 
@@ -28,6 +32,7 @@ type TodolistsActionsType = ReturnType<ActionType<typeof todolistsActions>>
 export type FilterType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistsType & {
   filter: FilterType
+  entityStatus: RequestStatusType
 }
 
 // S t a t e
@@ -40,7 +45,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
       return state.filter(tl => tl.id !== action.todolistId);
     case 'todolist/todolists/ADD-TODOLIST':
       return [
-        {...action.todolist, filter: 'all'},
+        {...action.todolist, filter: 'all', entityStatus: 'idle'},
         ...state,
       ]
     case 'todolist/todolists/CHANGE-TODOLIST-FILTER':
@@ -50,7 +55,10 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
       return state.map(tl =>
         tl.id === action.todolistId ? {...tl, title: action.title} : tl)
     case 'todolist/todolists/SET-TODOLISTS':
-      return action.todolists.map(tl => ({...tl, filter: 'all'}))
+      return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+    case 'todolist/todolists/CHANGE-ENTITY-STATUS':
+      return state.map(tl =>
+        tl.id === action.todolistId ? {...tl, entityStatus: action.entityStatus} : tl)
     default:
       return state;
   }
@@ -64,7 +72,8 @@ export const fetchTodolistsTC = () => {
       const data = await todolistsAPI.getTodolists()
       dispatch(todolistsActions.setTodolistsAC(data))
       dispatch(appActions.setStatusAC('succeeded'))
-    } catch {
+    } catch(error) {
+      handleServerNetworkError(error, dispatch)
     }
   }
 }
@@ -72,12 +81,16 @@ export const deleteTodolistTC = (todolistId: string) => {
   return async (dispatch: Dispatch<TodolistsActionsType | AppActionsType> ) => {
     try {
       dispatch(appActions.setStatusAC('loading'))
+      dispatch(todolistsActions.changeEntityStatusAC(todolistId, 'loading'))
       const data = await todolistsAPI.deleteTodolist(todolistId)
       if (data.resultCode === 0) {
         dispatch(todolistsActions.removeTodolistAC(todolistId))
         dispatch(appActions.setStatusAC('succeeded'))
       }
-    } catch {}
+    } catch(error) {
+      handleServerNetworkError(error, dispatch)
+      dispatch(todolistsActions.changeEntityStatusAC(todolistId, 'failed'))
+    }
   }
 }
 export const createTodolistTC = (title: string) => {
@@ -89,12 +102,11 @@ export const createTodolistTC = (title: string) => {
         dispatch(todolistsActions.addTodolistAC(data.data.item))
         dispatch(appActions.setStatusAC('succeeded'))
       } else {
-        if (data.messages.length) {
-          dispatch(appActions.setErrorAC(data.messages[0]))
-          dispatch(appActions.setStatusAC('failed'))
-        }
+        handleServerAppError(data, dispatch)
       }
-    } catch {}
+    } catch(error) {
+      handleServerNetworkError(error, dispatch)
+    }
   }
 }
 export const updateTodolistTC = (editedTitle: string, todoListId: string) => {
@@ -105,7 +117,11 @@ export const updateTodolistTC = (editedTitle: string, todoListId: string) => {
       if (data.resultCode === 0) {
         dispatch(todolistsActions.changeTodolistTitleAC(editedTitle, todoListId))
         dispatch(appActions.setStatusAC('succeeded'))
+      } else {
+        handleServerAppError(data, dispatch)
       }
-    } catch {}
+    } catch(error) {
+      handleServerNetworkError(error, dispatch)
+    }
   }
 }

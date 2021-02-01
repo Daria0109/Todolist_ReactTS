@@ -22,4 +22,9 @@ export const AddItemFormExample = Template.bind({});
 AddItemFormExample.args = {
   addItem: callback
 };
+export const AddItemFormDisabledExample = Template.bind({});
+AddItemFormDisabledExample.args = {
+  addItem: callback,
+  disabled: true
+};
 

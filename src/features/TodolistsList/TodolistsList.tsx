@@ -63,17 +63,14 @@ const TodolistsList = () => {
     <Grid container spacing={3}>
       {todolists.map(tl => {
         let tasksForTodoList = tasks[tl.id];
-        return <Grid item>
+        return <Grid item key={tl.id}>
           <Paper style={{padding: '20px', backgroundColor: 'powderblue'}}>
-            <Todolist key={tl.id}
-                      title={tl.title}
-                      id={tl.id}
+            <Todolist todolist={tl}
                       tasks={tasksForTodoList}
                       removeTask={removeTask}
                       addTask={addTask}
                       changeFilter={changeFilter}
                       changeTaskStatus={changeTaskStatus}
-                      filter={tl.filter}
                       removeTodoList={removeTodolist}
                       editTaskTitle={editTaskTitle}
                       editTodoListTitle={editTodoListTitle}/>

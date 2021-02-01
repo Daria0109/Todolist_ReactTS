@@ -1,5 +1,5 @@
 export const appActions = {
-  setStatusAC: (status: AppStatusType) => ({
+  setStatusAC: (status: RequestStatusType) => ({
     type: 'todolist/app/SET-STATUS', status
   } as const),
   setErrorAC: (error: string | null) => ({
@@ -15,10 +15,10 @@ const initialState: AppInitialStateType = {
   error: null
 }
 export type AppInitialStateType = {
-  status: AppStatusType
+  status: RequestStatusType
   error: string | null
 }
-export type AppStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 
 const appReducer = (state: AppInitialStateType = initialState, action: AppActionsType): AppInitialStateType => {
