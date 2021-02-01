@@ -45,7 +45,7 @@ const initialGlobalState = {
         {
           id: v1(), title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'loading', todoListId: 'todolistId2'
         },
         {
           id: v1(), title: 'Beer', addedDate: '', deadline: '', description: '',
@@ -55,7 +55,7 @@ const initialGlobalState = {
         {
           id: v1(), title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'loading', todoListId: 'todolistId2'
         }
       ],
   },
