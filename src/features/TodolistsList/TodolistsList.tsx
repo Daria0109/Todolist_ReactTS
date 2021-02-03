@@ -14,14 +14,19 @@ import {TaskStatuses} from '../../api/tasks-api';
 import {Grid, Paper} from '@material-ui/core';
 import AddItemForm from '../../components/AddItemForm/AddItemForm';
 import {Todolist} from './Todolist/TodoList';
+import {Redirect} from 'react-router-dom';
 
 
 const TodolistsList = () => {
   const dispatch = useDispatch();
-  let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
-  let todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
+  const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+  const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return
+    }
     dispatch(fetchTodolistsTC())
   }, [])
 
@@ -56,6 +61,11 @@ const TodolistsList = () => {
   const editTodoListTitle = useCallback((editedTitle: string, todoListId: string) => {
     dispatch(updateTodolistTC(editedTitle, todoListId))
   }, [dispatch])
+
+  if (!isLoggedIn) {
+    return <Redirect to={'/login'}/>
+  }
+
   return <>
     <Grid container style={{padding: '10px'}}>
       <AddItemForm addItem={addTodolist}/>
