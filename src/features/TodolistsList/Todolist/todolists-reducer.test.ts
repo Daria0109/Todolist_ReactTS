@@ -9,8 +9,8 @@ beforeEach(() => {
   todoListID2 = v1();
 
   initialState = [
-    {id: todoListID1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-    {id: todoListID2, title: 'What to bue', filter: 'all', order: 0, addedDate: ''}
+    {id: todoListID1, title: 'What to learn', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
+    {id: todoListID2, title: 'What to bue', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''}
   ]
 })
 
@@ -19,7 +19,7 @@ test('correct todolist should be deleted', () => {
   let endState = todolistsReducer(initialState, action);
 
   expect(endState).toEqual([
-    {id: todoListID2, title: 'What to bue', filter: 'all', order: 0, addedDate: ''}
+    {id: todoListID2, title: 'What to bue', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''}
   ])
 })
 
@@ -31,9 +31,9 @@ test('correct todolist should be added', () => {
   let endState = todolistsReducer(initialState, action);
 
   expect(endState).toEqual([
-    {id: todoListID3, title: 'How to live', filter: 'all', order: 0, addedDate: ''},
-    {id: todoListID1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-    {id: todoListID2, title: 'What to bue', filter: 'all', order: 0, addedDate: ''},
+    {id: todoListID3, title: 'How to live', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
+    {id: todoListID1, title: 'What to learn', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
+    {id: todoListID2, title: 'What to bue', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
   ])
 })
 
@@ -42,8 +42,8 @@ test('todolist filter should be changed', () => {
   let endState = todolistsReducer(initialState, action);
 
   expect(endState).toEqual([
-    {id: todoListID1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-    {id: todoListID2, title: 'What to bue', filter: 'completed', order: 0, addedDate: ''}
+    {id: todoListID1, title: 'What to learn', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
+    {id: todoListID2, title: 'What to bue', filter: 'completed', entityStatus: 'idle', order: 0, addedDate: ''}
   ])
 })
 
@@ -52,8 +52,8 @@ test('todolist title should be changed', () => {
   let endState = todolistsReducer(initialState, action);
 
   expect(endState).toEqual([
-    {id: todoListID1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-    {id: todoListID2, title: 'What to eat', filter: 'all', order: 0, addedDate: ''}
+    {id: todoListID1, title: 'What to learn', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
+    {id: todoListID2, title: 'What to eat', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''}
   ])
 })
 
@@ -68,4 +68,15 @@ test('todolists should be set correctly', () => {
   expect(endState.length).toBe(2)
   expect(endState[0].filter).toBeDefined()
   expect(endState[1].filter).toBeDefined()
+})
+
+test('an entity todolist status should be changed', () => {
+  const action = todolistsActions.changeEntityStatusAC(todoListID2, 'loading')
+
+  const endState = todolistsReducer(initialState, action)
+
+  expect(endState).toEqual([
+    {id: todoListID1, title: 'What to learn', filter: 'all', entityStatus: 'idle', order: 0, addedDate: ''},
+    {id: todoListID2, title: 'What to bue', filter: 'all', entityStatus: 'loading', order: 0, addedDate: ''}
+  ])
 })

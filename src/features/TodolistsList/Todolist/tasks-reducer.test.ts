@@ -1,5 +1,5 @@
 import {taskActions, tasksReducer, TasksStateType} from './tasks-reducer';
-import {TaskPriorities, TaskStatuses} from '../../../api/tasks-api';
+import {TaskPriorities, TaskStatuses, TaskType} from '../../../api/tasks-api';
 
 
 let startState: TasksStateType;
@@ -11,17 +11,17 @@ beforeEach(() => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ],
     'todolistId2':
@@ -29,17 +29,17 @@ beforeEach(() => {
         {
           id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '2', title: 'Beer', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         }
       ]
   }
@@ -56,17 +56,17 @@ test('correct task should be deleted from correct array', () => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ],
     'todolistId2':
@@ -74,12 +74,12 @@ test('correct task should be deleted from correct array', () => {
         {
           id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         }
       ]
   })
@@ -107,17 +107,17 @@ test('correct task should be added to correct array', () => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ],
     'todolistId2':
@@ -125,22 +125,22 @@ test('correct task should be added to correct array', () => {
         {
           id: '4', status: TaskStatuses.New, title: 'Chips', startDate: '',
           priority: TaskPriorities.Low, description: '', deadline: '',
-          todoListId: 'todolistId2', order: 0, addedDate: ''
+          todoListId: 'todolistId2', entityStatus: 'idle', order: 0, addedDate: ''
         },
         {
           id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '2', title: 'Beer', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         }
       ]
   });
@@ -158,17 +158,17 @@ test('status of specified task should be changed', () => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ],
     'todolistId2':
@@ -176,17 +176,17 @@ test('status of specified task should be changed', () => {
         {
           id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '2', title: 'Beer', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         }
       ]
   });
@@ -204,17 +204,17 @@ test('title of specified task should be changed', () => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'Bootstrap', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ],
     'todolistId2':
@@ -222,17 +222,17 @@ test('title of specified task should be changed', () => {
         {
           id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '2', title: 'Beer', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         }
       ]
   });
@@ -257,17 +257,17 @@ test('new array should be added when new todolist is added', () => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ],
     'todolistId2':
@@ -275,17 +275,17 @@ test('new array should be added when new todolist is added', () => {
         {
           id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '2', title: 'Beer', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId2'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
         },
         {
           id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId2'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId2'
         }
       ],
     'todolistId3': []
@@ -303,17 +303,17 @@ test('property with todolistId should be deleted', () => {
         {
           id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.Completed, todoListId: 'todolistId1'
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
         },
         {
           id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
           order: 0, priority: TaskPriorities.High, startDate: '',
-          status: TaskStatuses.New, todoListId: 'todolistId1'
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
         }
       ]
   })
@@ -336,17 +336,17 @@ test('tasks should be set', () => {
     {
       id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
       order: 0, priority: TaskPriorities.High, startDate: '',
-      status: TaskStatuses.Completed, todoListId: 'todolistId1'
+      status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
     },
     {
       id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
       order: 0, priority: TaskPriorities.High, startDate: '',
-      status: TaskStatuses.Completed, todoListId: 'todolistId1'
+      status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
     },
     {
       id: '3', title: 'HTML', addedDate: '', deadline: '', description: '',
       order: 0, priority: TaskPriorities.High, startDate: '',
-      status: TaskStatuses.New, todoListId: 'todolistId1'
+      status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
     }
   ]
   const action = taskActions.setTasksAC('todolistId1', tasks)
@@ -354,4 +354,49 @@ test('tasks should be set', () => {
 
   expect(endState['todolistId1']).toBeDefined()
   expect(endState['todolistId1'].length).toBe(3)
+})
+
+test ('an entity task status should be changed', () => {
+  const action = taskActions.changeEntityStatus('todolistId2', '3', 'loading')
+
+  const endState = tasksReducer(startState, action)
+
+  expect(endState).toEqual({
+    'todolistId1':
+      [
+        {
+          id: '1', title: 'HTML', addedDate: '', deadline: '', description: '',
+          order: 0, priority: TaskPriorities.High, startDate: '',
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
+        },
+        {
+          id: '2', title: 'CSS', addedDate: '', deadline: '', description: '',
+          order: 0, priority: TaskPriorities.High, startDate: '',
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId1'
+        },
+        {
+          id: '3', title: 'JS', addedDate: '', deadline: '', description: '',
+          order: 0, priority: TaskPriorities.High, startDate: '',
+          status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
+        }
+      ],
+    'todolistId2':
+      [
+        {
+          id: '1', title: 'Milk', addedDate: '', deadline: '', description: '',
+          order: 0, priority: TaskPriorities.High, startDate: '',
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
+        },
+        {
+          id: '2', title: 'Beer', addedDate: '', deadline: '', description: '',
+          order: 0, priority: TaskPriorities.High, startDate: '',
+          status: TaskStatuses.Completed, entityStatus: 'idle', todoListId: 'todolistId2'
+        },
+        {
+          id: '3', title: 'Fish', addedDate: '', deadline: '', description: '',
+          order: 0, priority: TaskPriorities.High, startDate: '',
+          status: TaskStatuses.New, entityStatus: 'loading', todoListId: 'todolistId2'
+        }
+      ]
+  })
 })
