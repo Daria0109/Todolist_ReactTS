@@ -19,7 +19,7 @@ import {AppRootStateType} from './store';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import {Login} from '../features/Login/Login';
 import {Error404} from '../components/Error404/Error404';
-import {logout} from '../features/Login/login-reducer';
+import {logout} from '../features/Login/auth-reducer';
 
 
 const AppWithRedux = () => {

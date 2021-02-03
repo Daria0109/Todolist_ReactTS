@@ -5,7 +5,8 @@ let initialState: AppInitialStateType;
 beforeEach(() => {
   initialState = {
     status: 'idle',
-    error: null
+    error: null,
+    isAppInitialized: false
   }
 })
 
@@ -22,4 +23,10 @@ test('error should be set', () => {
 
   expect(endState.status).toBe('idle')
   expect(endState.error).toBe('Error!')
+})
+test('initialization status should be set to the state', () => {
+  const action = appActions.setIsAppInitialized(true)
+  const endState = appReducer(initialState, action)
+
+  expect(endState.isAppInitialized).toBeTruthy()
 })

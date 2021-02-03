@@ -2,7 +2,7 @@ import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
-import {login} from './login-reducer';
+import {login} from './auth-reducer';
 import {initializePuppeteerNode} from 'puppeteer/lib/cjs/puppeteer/initialize-node';
 import {AppRootStateType} from '../../app/store';
 import {Redirect} from 'react-router-dom';

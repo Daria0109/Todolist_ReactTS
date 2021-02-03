@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {authAPI} from '../api/login-api';
-import {login, loginActions, LoginActionsType} from '../features/Login/login-reducer';
+import {authActions, AuthActionsType} from '../features/Login/auth-reducer';
 
 export const appActions = {
   setStatusAC: (status: RequestStatusType) => ({
@@ -55,10 +55,10 @@ export default appReducer;
 
 // T h u n k
 export const initializeApp = () => {
-  return async (dispatch: Dispatch<AppActionsType | LoginActionsType>) => {
+  return async (dispatch: Dispatch<AppActionsType | AuthActionsType>) => {
     const data = await authAPI.me()
     if (data.resultCode === 0) {
-      dispatch(loginActions.setLogin(true))
+      dispatch(authActions.setIsLoggedIn(true))
     } else {
       if (data.messages.length !== 0) {
 
