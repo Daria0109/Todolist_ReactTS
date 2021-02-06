@@ -11,17 +11,31 @@ import {
 } from './Todolist/todolists-reducer';
 import React, {useCallback, useEffect} from 'react';
 import {TaskStatuses} from '../../api/tasks-api';
-import {Grid, Paper} from '@material-ui/core';
+import {createStyles, Grid, makeStyles, Paper, Theme} from '@material-ui/core';
 import AddItemForm from '../../components/AddItemForm/AddItemForm';
 import {Todolist} from './Todolist/TodoList';
 import {Redirect} from 'react-router-dom';
 
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    paper: {
+      padding: '15px',
+      backgroundColor: '#e09f3e'
+    },
+    addItemFormGrid: {
+      padding: '20px',
+    }
+  })
+);
+
 const TodolistsList = () => {
   const dispatch = useDispatch();
   const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
+  const classes = useStyles();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -67,14 +81,14 @@ const TodolistsList = () => {
   }
 
   return <>
-    <Grid container style={{padding: '10px'}}>
+    <Grid container className={classes.addItemFormGrid}>
       <AddItemForm addItem={addTodolist}/>
     </Grid>
     <Grid container spacing={3}>
       {todolists.map(tl => {
         let tasksForTodoList = tasks[tl.id];
-        return <Grid item key={tl.id}>
-          <Paper style={{padding: '20px', backgroundColor: 'powderblue'}}>
+        return <Grid item xs={12} sm={6} md={4} lg={3} key={tl.id}>
+          <Paper elevation={3} className={classes.paper}>
             <Todolist todolist={tl}
                       tasks={tasksForTodoList}
                       removeTask={removeTask}

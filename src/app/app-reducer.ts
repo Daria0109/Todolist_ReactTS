@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
-import {authAPI} from '../api/login-api';
+import {authAPI} from '../api/auth-api';
 import {authActions, AuthActionsType} from '../features/Login/auth-reducer';
+import {handleServerAppError, handleServerNetworkError} from '../helpers/error-helpers';
 
 export const appActions = {
   setStatusAC: (status: RequestStatusType) => ({
@@ -56,14 +57,19 @@ export default appReducer;
 // T h u n k
 export const initializeApp = () => {
   return async (dispatch: Dispatch<AppActionsType | AuthActionsType>) => {
-    const data = await authAPI.me()
-    if (data.resultCode === 0) {
-      dispatch(authActions.setIsLoggedIn(true))
-    } else {
-      if (data.messages.length !== 0) {
-
+    try {
+      const data = await authAPI.me()
+      if (data.resultCode === 0) {
+        dispatch(authActions.setIsLoggedIn(true))
+        dispatch(authActions.setLogin(data.data.login))
+      } else {
+        if (data.messages.length !== 0) {
+          handleServerAppError(data, dispatch)
+        }
       }
+      dispatch(appActions.setIsAppInitialized(true))
+    } catch(error) {
+      handleServerNetworkError(error, dispatch)
     }
-    dispatch(appActions.setIsAppInitialized(true))
   }
 }

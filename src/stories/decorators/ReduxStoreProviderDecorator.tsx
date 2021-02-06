@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
   app: appReducer,
-  login: authReducer
+  auth: authReducer
 })
 
 const initialGlobalState = {
@@ -66,8 +66,9 @@ const initialGlobalState = {
     error: null,
     isAppInitialized: false
   },
-  login: {
-    isLoggedIn: false
+  auth: {
+    isLoggedIn: false,
+    login: null
   }
 };
 

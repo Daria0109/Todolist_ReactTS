@@ -1,11 +1,11 @@
 import React from 'react'
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from './auth-reducer';
-import {initializePuppeteerNode} from 'puppeteer/lib/cjs/puppeteer/initialize-node';
 import {AppRootStateType} from '../../app/store';
 import {Redirect} from 'react-router-dom';
+import s from './Login.module.css'
 
 
 type FormikErrorType = {
@@ -17,7 +17,7 @@ type FormikErrorType = {
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
   const formik = useFormik({
     validate: (values) => {
@@ -51,9 +51,10 @@ export const Login = () => {
     return <Redirect to={'/'}/>
   }
 
-  return <Grid container justify="center">
-    <Grid item xs={4}>
-      <form onSubmit={formik.handleSubmit}>
+  return (
+  <Grid container justify="center">
+    <Grid item xs={6}>
+      <form onSubmit={formik.handleSubmit} className={s.form}>
       <FormControl>
         <FormLabel>
           <p>To log in get registered
@@ -73,7 +74,7 @@ export const Login = () => {
           />
           {formik.touched.email && formik.errors.email
             ? (
-            <div style={{color: 'red'}}>{formik.errors.email}</div>)
+            <div className={s.fieldError}>{formik.errors.email}</div>)
             : null}
           <TextField
             type="password"
@@ -82,7 +83,7 @@ export const Login = () => {
           />
           {formik.touched.password && formik.errors.password
             ? (
-            <div style={{color: 'red'}}>{formik.errors.password}</div>)
+            <div className={s.fieldError}>{formik.errors.password}</div>)
             : null}
           <FormControlLabel
             label={'Remember me'}
@@ -92,10 +93,11 @@ export const Login = () => {
           />
           <Button type={'submit'}
                   variant={'contained'}
-                  color={'primary'}>Login</Button>
+                  color={'secondary'}>Login</Button>
         </FormGroup>
       </FormControl>
       </form>
     </Grid>
   </Grid>
+  )
 }

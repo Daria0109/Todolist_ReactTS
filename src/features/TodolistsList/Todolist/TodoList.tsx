@@ -8,6 +8,7 @@ import {TaskStatuses, TaskType} from '../../../api/tasks-api';
 import {FilterType, TodolistDomainType} from './todolists-reducer';
 import {useDispatch} from 'react-redux';
 import {fetchTasksTC, TaskDomainType} from './tasks-reducer';
+import s from './Todolist.module.css'
 
 type TodoListPropsType = {
   todolist: TodolistDomainType
@@ -53,9 +54,8 @@ export const Todolist = React.memo((props: TodoListPropsType) => {
     tasksForTodoList = props.tasks.filter(task => task.status === TaskStatuses.Completed)
   }
 
-  return (
-    <div>
-      <h3>
+  return <>
+      <h3 className={s.title}>
         <EditableSpan title={props.todolist.title}
                       editTitle={editTodoListTitle}
                       notEdited={props.todolist.entityStatus === 'loading'}/>
@@ -64,7 +64,7 @@ export const Todolist = React.memo((props: TodoListPropsType) => {
         </IconButton>
       </h3>
       <AddItemForm addItem={onAddTask} disabled={props.todolist.entityStatus === 'loading'}/>
-      <ul style={{padding: '0px'}}>
+      <ul className={s.tasks}>
         {
           tasksForTodoList.map(t => <Task key={t.id}
                                           task={t}
@@ -73,7 +73,7 @@ export const Todolist = React.memo((props: TodoListPropsType) => {
                                           removeTask={props.removeTask}
                                           editTaskTitle={props.editTaskTitle}/>)}
       </ul>
-      <div>
+      <div className={s.buttons}>
         <Button variant={props.todolist.filter == 'all' ? 'contained' : 'text'}
                 onClick={onAllClickHandler}>All
         </Button>
@@ -86,7 +86,6 @@ export const Todolist = React.memo((props: TodoListPropsType) => {
                 color={'secondary'}>Completed
         </Button>
       </div>
-    </div>
-  )
+    </>
 })
 

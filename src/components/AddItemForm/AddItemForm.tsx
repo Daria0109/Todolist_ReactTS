@@ -1,6 +1,14 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {IconButton, TextField} from '@material-ui/core';
+import {createStyles, IconButton, makeStyles, TextField, Theme} from '@material-ui/core';
 import {AddBox} from '@material-ui/icons';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    textField: {
+      width: '75%'
+    }
+  })
+);
 
 export type AddItemFormPropsType = {
   addItem: (itemTitle: string) => void
@@ -8,8 +16,7 @@ export type AddItemFormPropsType = {
 }
 
 const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem, disabled = false}) => {
-  console.log('AddItemForm')
-
+  const classes = useStyles();
   let [itemTitle, setItemTitle] = useState('');
   let [error, setError] = useState<string | null>(null)
 
@@ -32,25 +39,24 @@ const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem, disabl
       setError('Title is required')
     }
   }
+  const textFieldStyle = error ? 'error' : ''
 
-  return (
-    <div>
+  return <div>
       <TextField value={itemTitle}
                  variant={'outlined'}
                  label={'Title'}
                  onChange={onChangeHandler}
                  onKeyPress={onKeyPressHandler}
-                 className={error ? 'error' : ''}
-                 error={!!error} helperText={error}
+                 className={`${textFieldStyle}  ${classes.textField}`}
+                 error={!!error}
+                 helperText={error}
                  disabled={disabled}/>
       <IconButton onClick={onAddItemHandler}
                   color={'primary'}
                   disabled={disabled}>
         <AddBox/>
       </IconButton>
-
     </div>
-  )
 })
 
 export default AddItemForm;
