@@ -15,7 +15,7 @@ import ErrorSnackbar from '../components/ErrorSnackbar/ErrorSnackbar';
 import {useDispatch, useSelector} from 'react-redux';
 import {initializeApp, RequestStatusType} from './app-reducer';
 import {AppRootStateType} from './store';
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from '../features/Login/Login';
 import {Error404} from '../components/Error404/Error404';
 import {Header} from '../components/Header/Header';
@@ -64,7 +64,7 @@ const AppWithRedux = () => {
   }
 
   return <ThemeProvider theme={theme}>
-    <BrowserRouter>
+    <HashRouter>
       <Grid container direction='column' className={classes.root}>
 
         <Grid item className={classes.headerGrid}>
@@ -86,7 +86,7 @@ const AppWithRedux = () => {
           <Grid item xs={1} sm={1}/>
         </Grid>
       </Grid>
-    </BrowserRouter>
+    </HashRouter>
   </ThemeProvider>
 }
 
