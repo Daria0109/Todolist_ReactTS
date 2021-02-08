@@ -2,7 +2,7 @@ import axios from 'axios'
 import {APIResponseType} from './todolists-api';
 
 const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists',
+  baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists/',
   withCredentials: true,
   headers: {'API-KEY': 'bcb04db8-51e3-4a52-abad-1b8669db5951'}
 })
@@ -52,7 +52,7 @@ export type UpdateTaskModelType = {
 
 export const tasksAPI = {
   getTasks(todolistId: string) {
-    return instance.get<GetResponseTaskType>(`${todolistId}/tasks?count=10&page=1`)
+    return instance.get<GetResponseTaskType>(`${todolistId}/tasks`)
       .then(res => res.data)
   },
   createTask(todolistId: string, title: string) {

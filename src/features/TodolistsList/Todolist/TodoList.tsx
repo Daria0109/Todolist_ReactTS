@@ -6,9 +6,10 @@ import {Delete} from '@material-ui/icons';
 import {Task} from './Task/Task';
 import {TaskStatuses, TaskType} from '../../../api/tasks-api';
 import {FilterType, TodolistDomainType} from './todolists-reducer';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchTasksTC, TaskDomainType} from './tasks-reducer';
 import s from './Todolist.module.css'
+import {AppRootStateType} from '../../../app/store';
 
 type TodoListPropsType = {
   todolist: TodolistDomainType
@@ -23,10 +24,13 @@ type TodoListPropsType = {
 }
 
 export const Todolist = React.memo((props: TodoListPropsType) => {
-  console.log('TODOLIST')
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return
+    }
     dispatch(fetchTasksTC(props.todolist.id))
   }, [])
 

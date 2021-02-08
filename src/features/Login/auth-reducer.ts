@@ -3,8 +3,6 @@ import {Dispatch} from 'redux';
 import {authAPI, LoginParamsType} from '../../api/auth-api';
 import {appActions, AppActionsType, initializeApp} from '../../app/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../helpers/error-helpers';
-import {ThunkAction} from 'redux-thunk';
-import {AppRootStateType} from '../../app/store';
 
 export const authActions = {
   setIsLoggedIn: (isLoggedIn: boolean) => ({
