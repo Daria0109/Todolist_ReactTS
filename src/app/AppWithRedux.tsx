@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {
-  CircularProgress,
   createMuiTheme,
   createStyles,
   Grid,
@@ -15,7 +14,7 @@ import ErrorSnackbar from '../components/ErrorSnackbar/ErrorSnackbar';
 import {useDispatch, useSelector} from 'react-redux';
 import {initializeApp, RequestStatusType} from './app-reducer';
 import {AppRootStateType} from './store';
-import {BrowserRouter, HashRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from '../features/Login/Login';
 import {Error404} from '../components/Error404/Error404';
 import {Header} from '../components/Header/Header';

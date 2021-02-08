@@ -4,7 +4,7 @@ import {APIResponseType} from './todolists-api';
 const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists/',
   withCredentials: true,
-  headers: {'API-KEY': 'bcb04db8-51e3-4a52-abad-1b8669db5951'}
+  headers: {'API-KEY': '36d1ca6d-3b4d-4bd9-8dd7-68536850a338'}
 })
 
 
