@@ -1,5 +1,6 @@
-import {taskActions, tasksReducer, TasksStateType} from './tasks-reducer';
-import {TaskPriorities, TaskStatuses, TaskType} from '../../../api/tasks-api';
+import {tasksReducer, TasksStateType, removeTask, addTask, changeTask, setTasks, changeEntityStatus} from './tasks-reducer';
+import {TaskPriorities, TaskStatuses} from '../../../api/tasks-api';
+import { addTodolist, removeTodolist, setTodolists } from './todolists-reducer';
 
 
 let startState: TasksStateType;
@@ -46,7 +47,7 @@ beforeEach(() => {
 })
 
 test('correct task should be deleted from correct array', () => {
-  const action = taskActions.removeTaskAC('2', 'todolistId2');
+  const action = removeTask({taskId: '2', todolistId: 'todolistId2'});
 
   const endState = tasksReducer(startState, action)
 
@@ -86,7 +87,7 @@ test('correct task should be deleted from correct array', () => {
 });
 
 test('correct task should be added to correct array', () => {
-  const action = taskActions.addTaskAC('todolistId2', {
+  const task = {
     id: '4',
     status: TaskStatuses.New,
     title: 'Chips',
@@ -97,7 +98,8 @@ test('correct task should be added to correct array', () => {
     todoListId: 'todolistId2',
     order: 0,
     addedDate: ''
-  });
+  }
+  const action = addTask({todolistId: 'todolistId2', task: task});
 
   const endState = tasksReducer(startState, action)
 
@@ -147,8 +149,9 @@ test('correct task should be added to correct array', () => {
 })
 
 test('status of specified task should be changed', () => {
-  const action = taskActions.changeTaskAC('todolistId2', '2',
-    {status: TaskStatuses.New});
+  const action = changeTask({todolistId: 'todolistId2', taskId: '2',
+  model: {status: TaskStatuses.New}
+});
 
   const endState = tasksReducer(startState, action)
 
@@ -193,8 +196,9 @@ test('status of specified task should be changed', () => {
 });
 
 test('title of specified task should be changed', () => {
-  const action = taskActions.changeTaskAC('todolistId1', '2',
-    {title: 'Bootstrap'});
+  const action = changeTask({todolistId: 'todolistId1', taskId: '2',
+  model: {title: 'Bootstrap'}
+});
 
   const endState = tasksReducer(startState, action)
 
@@ -239,9 +243,8 @@ test('title of specified task should be changed', () => {
 });
 
 test('new array should be added when new todolist is added', () => {
-  const action = taskActions.addTodolistAC({
-    id: 'todolistId3', title: 'What to learn', order: 0, addedDate: ''
-  });
+  const todolist = {id: 'todolistId3', title: 'What to learn', order: 0, addedDate: ''}
+  const action = addTodolist({todolist});
   const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState);
@@ -293,7 +296,7 @@ test('new array should be added when new todolist is added', () => {
 });
 
 test('property with todolistId should be deleted', () => {
-  const action = taskActions.removeTodolistAC('todolistId2');
+  const action = removeTodolist({todolistId: 'todolistId2'});
 
   const endState = tasksReducer(startState, action)
   const keys = Object.keys(endState);
@@ -324,7 +327,7 @@ test('state for tasks should be created with todolists setting', () => {
     {id: 'todoListID1', title: 'What to learn', order: 0, addedDate: ''},
     {id: 'todoListID2', title: 'What to bue', order: 0, addedDate: ''}
   ]
-  const action = taskActions.setTodolistsAC(todolists)
+  const action = setTodolists({todolists})
   const endState = tasksReducer({}, action)
   const keys = Object.keys(endState)
 
@@ -349,7 +352,7 @@ test('tasks should be set', () => {
       status: TaskStatuses.New, entityStatus: 'idle', todoListId: 'todolistId1'
     }
   ]
-  const action = taskActions.setTasksAC('todolistId1', tasks)
+  const action = setTasks({todolistId: 'todolistId1', tasks})
   const endState: TasksStateType = tasksReducer({}, action)
 
   expect(endState['todolistId1']).toBeDefined()
@@ -357,7 +360,7 @@ test('tasks should be set', () => {
 })
 
 test ('an entity task status should be changed', () => {
-  const action = taskActions.changeEntityStatus('todolistId2', '3', 'loading')
+  const action = changeEntityStatus({todolistId: 'todolistId2', taskId: '3', status: 'loading'})
 
   const endState = tasksReducer(startState, action)
 

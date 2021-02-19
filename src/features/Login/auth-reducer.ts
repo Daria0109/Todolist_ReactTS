@@ -9,6 +9,7 @@ const initialState = {
   isLoggedIn: false,
   login: null as string | null
 }
+export type AuthStateType = typeof initialState;
 
 // S l i c e
 const authSlice = createSlice({
