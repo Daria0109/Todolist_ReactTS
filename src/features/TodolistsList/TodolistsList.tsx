@@ -6,8 +6,7 @@ import {
   deleteTodolistTC,
   fetchTodolistsTC,
   FilterType,
-  TodolistDomainType,
-  todolistsActions, updateTodolistTC
+  TodolistDomainType, updateTodolistTC, changeTodolistFilter
 } from './Todolist/todolists-reducer';
 import React, {useCallback, useEffect} from 'react';
 import {TaskStatuses} from '../../api/tasks-api';
@@ -60,8 +59,8 @@ const TodolistsList = () => {
     dispatch(updateTaskTC({title: editedTitle}, taskId, todolistId))
   }, [dispatch])
 
-  const changeFilter = useCallback((value: FilterType, todoListId: string) => {
-    dispatch(todolistsActions.changeTodolistFilterAC(value, todoListId))
+  const changeFilter = useCallback((value: FilterType, todolistId: string) => {
+    dispatch(changeTodolistFilter({filterValue: value, todolistId}))
   }, [dispatch])
 
   const removeTodolist = useCallback((todolistId: string) => {

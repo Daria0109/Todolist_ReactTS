@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AppWithRedux = () => {
+const App = () => {
   const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
   const isAppInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isAppInitialized)
   const dispatch = useDispatch();
@@ -89,5 +89,5 @@ const AppWithRedux = () => {
   </ThemeProvider>
 }
 
-export default AppWithRedux;
+export default App;
 

@@ -6,9 +6,9 @@ import {tasksReducer} from '../../features/TodolistsList/Todolist/tasks-reducer'
 import {todolistsReducer} from '../../features/TodolistsList/Todolist/todolists-reducer';
 import {v1} from 'uuid';
 import {TaskPriorities, TaskStatuses} from '../../api/tasks-api';
-import appReducer from '../../app/app-reducer';
 import thunk from 'redux-thunk'
-import authReducer from '../../features/Login/auth-reducer';
+import {appReducer} from '../../app/app-reducer';
+import { authReducer } from '../../features/Login/auth-reducer';
 
 
 const rootReducer = combineReducers({

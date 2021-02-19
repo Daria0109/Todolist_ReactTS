@@ -1,23 +1,11 @@
 import {Dispatch} from 'redux';
 import {authAPI} from '../api/auth-api';
-import {authActions, AuthActionsType} from '../features/Login/auth-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../helpers/error-helpers';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { setIsLoggedIn, setLogin } from '../features/Login/auth-reducer';
 
-export const appActions = {
-  setStatusAC: (status: RequestStatusType) => ({
-    type: 'todolist/app/SET-STATUS', status
-  } as const),
-  setErrorAC: (error: string | null) => ({
-    type: 'todolist/app/SET-ERROR', error
-  } as const),
-  setIsAppInitialized: (isAppInitialised: boolean) => ({
-    type: 'todolist/app/SET-IS-APP-INITIALIZED', isAppInitialised
-  } as const)
-}
-
-type ActionType<T> = T extends { [key: string]: infer U } ? U : never;
-export type AppActionsType = ReturnType<ActionType<typeof appActions>>
-
+// S t a t e
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 const initialState: AppInitialStateType = {
   status: 'idle',
   error: null,
@@ -28,46 +16,42 @@ export type AppInitialStateType = {
   error: string | null
   isAppInitialized: boolean
 }
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-
-const appReducer = (state: AppInitialStateType = initialState, action: AppActionsType): AppInitialStateType => {
-  switch (action.type) {
-    case 'todolist/app/SET-STATUS':
-      return {
-        ...state,
-        status: action.status
-      }
-    case 'todolist/app/SET-ERROR':
-      return {
-        ...state,
-        error: action.error
-      }
-    case 'todolist/app/SET-IS-APP-INITIALIZED':
-      return {
-        ...state,
-        isAppInitialized: action.isAppInitialised
-      }
-    default:
-      return {...state}
+// S l i c e
+const appSlice = createSlice({
+  name: 'app',
+  initialState: initialState,
+  reducers: {
+    setStatus: (state, action: PayloadAction<{status: RequestStatusType}>) => {
+      state.status = action.payload.status
+    },
+    setError: (state, action: PayloadAction<{error: string | null}>) => {
+      state.error = action.payload.error
+    },
+    setIsAppInitialized: (state, action: PayloadAction<{isAppInitialised: boolean}>) => {
+      state.isAppInitialized = action.payload.isAppInitialised
+    }
   }
-}
-export default appReducer;
+})
+
+// R e d u c e r
+export const appReducer = appSlice.reducer;
+export const {setError, setIsAppInitialized, setStatus} = appSlice.actions
 
 // T h u n k
 export const initializeApp = () => {
-  return async (dispatch: Dispatch<AppActionsType | AuthActionsType>) => {
+  return async (dispatch: Dispatch) => {
     try {
       const data = await authAPI.me()
       if (data.resultCode === 0) {
-        dispatch(authActions.setIsLoggedIn(true))
-        dispatch(authActions.setLogin(data.data.login))
+        dispatch(setIsLoggedIn({isLoggedIn: true}))
+        dispatch(setLogin({login: data.data.login}))
       } else {
         if (data.messages.length !== 0) {
           handleServerAppError(data, dispatch)
         }
       }
-      dispatch(appActions.setIsAppInitialized(true))
+      dispatch(setIsAppInitialized({isAppInitialised: true}))
     } catch(error) {
       handleServerNetworkError(error, dispatch)
     }
