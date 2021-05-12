@@ -14,7 +14,7 @@ export type AuthStateType = typeof initialState;
 // S l i c e
 const authSlice = createSlice({
   name: 'auth',
-  initialState: initialState,
+  initialState,
   reducers: {
     setIsLoggedIn: (state, action: PayloadAction<{isLoggedIn: boolean}>) => {
       state.isLoggedIn = action.payload.isLoggedIn

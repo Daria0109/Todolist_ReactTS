@@ -20,7 +20,7 @@ export type AppInitialStateType = {
 // S l i c e
 const appSlice = createSlice({
   name: 'app',
-  initialState: initialState,
+  initialState,
   reducers: {
     setStatus: (state, action: PayloadAction<{status: RequestStatusType}>) => {
       state.status = action.payload.status

@@ -20,7 +20,7 @@ const initialState: TasksStateType = {}
 // S l i c e
 const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: initialState,
+  initialState,
   reducers: {
     removeTask: (state, action: PayloadAction<{ taskId: string, todolistId: string }>) => {
       const tasks = state[action.payload.todolistId];
